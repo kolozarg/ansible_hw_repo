@@ -1,0 +1,19 @@
+- name: Install and configure Nginx
+  hosts: web
+  become: yes
+  tasks:
+    - name: Install Nginx
+      dnf:
+        name: nginx
+        state: present
+
+    - name: Enable and start Nginx service
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+
+    - name: Deploy custom index.html
+      template:
+        src: index.html.j2
+        dest: /usr/share/nginx/html/index.html
